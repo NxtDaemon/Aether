@@ -3,7 +3,6 @@ import discord
 from discord.ext import commands  
 from discord.ext.commands import has_permissions, MissingPermissions
 import json , time  
-from datetime import datetime
 
 # Import Bot Token 
 from API_Keys import * 
@@ -33,8 +32,7 @@ async def on_member_remove(member):
   channel = client.get_channel(822471540057964657)
   await channel.send(f"{member} has left")  
 
-extentions = ['List']
-
+extentions = ['cogs/List']
 if __name__ == "__main__":
   for ext in extentions:
     bot.load_extension(ext)

@@ -57,4 +57,4 @@ class List(commands.Cog):
       await ctx.send(f"This Component Does Not Exist in The List : `{Number}`")
             
 def setup(bot):
-  bot.add_cog(List(bot))
+  bot.add_cog(List(bot))ww
