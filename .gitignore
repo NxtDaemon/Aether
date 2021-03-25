@@ -1,3 +1,2 @@
 *.admin
-API_Keys.py
-*.txt
+*key

@@ -1,17 +1,19 @@
 # import required dependicies
 import discord 
 from discord.ext import commands  
-from discord.ext.commands import has_permissions, MissingPermissions
-import json , time  
-from datetime import datetime
+import os
 
 # Import Bot Token 
-from API_Keys import * 
+BOT_TOKEN = os.environ['BOT_TOKEN']
 
+# Load Rich Intents
 intents = discord.Intents.default()
 intents.members = True 
 
-bot = commands.Bot(command_prefix = ';', intents=intents, help_command=None)
+# Instantiate Bot 
+bot = commands.Bot(command_prefix = '/', intents=intents)
+
+# Start Up
 
 @bot.event
 async def on_ready():
@@ -33,10 +35,11 @@ async def on_member_remove(member):
   channel = client.get_channel(822471540057964657)
   await channel.send(f"{member} has left")  
 
-extentions = ['List']
+print("")
 
 if __name__ == "__main__":
-  for ext in extentions:
-    bot.load_extension(ext)
-    
-bot.run(BotToken)
+  for filename in os.listdir('cogs'):
+    if filename.endswith(".py"):
+      bot.load_extension(f'cogs.{filename[:-3]}')
+      print(f"Loaded {filename}")
+  bot.run(BOT_TOKEN)
