@@ -1,5 +1,0 @@
-2021-03-24 23:08:57,288        Logging         INFO     <module>             just fuck
-2021-03-24 23:08:57,289        Logging         DEBUG    <module>             fuck but in green
-2021-03-24 23:08:57,289        Logging         ERROR    <module>             fuck but in red
-2021-03-24 23:08:57,290        Logging         CRITICAL <module>             fuck but in bold
-2021-03-24 23:08:57,290        Logging         WARNING  <module>             fuck but in yellow
