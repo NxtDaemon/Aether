@@ -1,0 +1,57 @@
+2021-04-11 18:25:16,917        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:25:16 2021
+2021-04-11 18:25:26,702        Main            WARNING  on_command_error     Unexpected Error : `Command "l" is not found`
+2021-04-11 18:25:32,944        Main            WARNING  on_command_error     Unexpected Error : `Command "L" is not found`
+2021-04-11 18:25:34,594        Main            WARNING  on_command_error     Unexpected Error : `Command "list" is not found`
+2021-04-11 18:26:26,375        Main            WARNING  on_command_error     Unexpected Error : `Command "rand" is not found`
+2021-04-11 18:27:06,748        Main            WARNING  on_command_error     Unexpected Error : `Command "l" is not found`
+2021-04-11 18:27:07,292        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:27:07 2021
+2021-04-11 18:27:10,049        Main            WARNING  on_command_error     Unexpected Error : `Command "l" is not found`
+2021-04-11 18:27:13,303        Main            WARNING  on_command_error     Unexpected Error : `Command "list" is not found`
+2021-04-11 18:27:15,445        Main            WARNING  on_command_error     Unexpected Error : `Command "remove" is not found`
+2021-04-11 18:31:09,342        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:31:09 2021
+2021-04-11 18:31:15,197        Main            WARNING  on_command_error     Unexpected Error : `Command "l" is not found`
+2021-04-11 18:38:10,163        Main            WARNING  on_command_error     Unexpected Error : `Command "l" is not found`
+2021-04-11 18:38:12,908        Main            WARNING  on_command_error     Unexpected Error : `Command "la" is not found`
+2021-04-11 18:38:15,101        Main            WARNING  on_command_error     Unexpected Error : `Command "list" is not found`
+2021-04-11 18:38:33,338        Main            INFO     on_command_error     A Request was sent that had Missing Parameters , Request Ignored
+2021-04-11 18:39:55,009        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:39:55 2021
+2021-04-11 18:40:28,983        Main            WARNING  on_command_error     Unexpected Error : `Command "l" is not found`
+2021-04-11 18:40:59,569        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:40:59 2021
+2021-04-11 18:41:07,004        Main            WARNING  on_command_error     Unexpected Error : `Command "lk" is not found`
+2021-04-11 18:43:23,828        Main            WARNING  on_command_error     Unexpected Error : `Command "load" is not found`
+2021-04-11 18:43:50,188        Main            WARNING  on_command_error     Unexpected Error : `Command "unload" is not found`
+2021-04-11 18:44:08,403        Main            WARNING  on_command_error     Unexpected Error : `Command "_reload" is not found`
+2021-04-11 18:50:46,359        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:50:46 2021
+2021-04-11 18:53:15,510        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:53:15 2021
+2021-04-11 18:53:45,252        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:53:45 2021
+2021-04-11 18:54:35,908        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 18:54:35 2021
+2021-04-11 19:12:11,684        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:12:11 2021
+2021-04-11 19:12:21,015        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `List` at `2021-04-11 18:12:20.988000`
+2021-04-11 19:12:21,018        ToDoList        INFO     FileEmptyCheck       FileObj Detected Empty
+2021-04-11 19:12:31,829        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `ListAdd` at `2021-04-11 18:12:31.745000`
+2021-04-11 19:12:31,831        ToDoList        INFO     ParameterEmptyCheck  Required Parameter Detected Empty
+2021-04-11 19:12:35,952        Main            INFO     on_command_error     A Request was sent that had Missing Parameters , Request Ignored
+2021-04-11 19:16:50,417        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:16:50 2021
+2021-04-11 19:16:59,071        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:16:59 2021
+2021-04-11 19:21:39,063        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:21:39 2021
+2021-04-11 19:22:20,142        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:22:20 2021
+2021-04-11 19:22:49,011        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:22:49 2021
+2021-04-11 19:22:58,379        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `List` at `2021-04-11 18:22:58.370000`
+2021-04-11 19:22:58,381        ToDoList        INFO     FileEmptyCheck       FileObj Detected Empty
+2021-04-11 19:22:59,132        Main            WARNING  on_command_error     Unexpected Error : `Command "ls" is not found`
+2021-04-11 19:23:00,390        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `ListAdd` at `2021-04-11 18:23:00.378000`
+2021-04-11 19:23:00,392        ToDoList        INFO     ParameterEmptyCheck  Required Parameter Detected Empty
+2021-04-11 19:23:01,853        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `Random` at `2021-04-11 18:23:01.830000`
+2021-04-11 19:23:01,856        Main            WARNING  on_command_error     Unexpected Error : `Command raised an exception: NameError: name 'name' is not defined`
+2021-04-11 19:23:04,349        Main            WARNING  on_command_error     Unexpected Error : `Command "load" is not found`
+2021-04-11 19:24:56,209        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:24:56 2021
+2021-04-11 19:24:58,157        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `Random` at `2021-04-11 18:24:58.155000`
+2021-04-11 19:24:58,160        Main            WARNING  on_command_error     Unexpected Error : `Command raised an exception: NameError: name 'name' is not defined` in Random
+2021-04-11 19:27:21,992        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `List` at `2021-04-11 18:27:21.965000`
+2021-04-11 19:27:21,995        ToDoList        INFO     FileEmptyCheck       FileObj Detected Empty
+2021-04-11 19:27:23,183        Main            INFO     on_ready             DaemonBot Online At Sun Apr 11 19:27:23 2021
+2021-04-11 19:27:26,869        Main            WARNING  on_command_error     Unexpected Error : `Command "ls" is not found` in None
+2021-04-11 19:27:28,485        Main            DEBUG    RecordUser           NxtDaemon#3675 running command `Random` at `2021-04-11 18:27:28.455000`
+2021-04-11 19:27:37,847        Main            WARNING  on_command_error     Unexpected Error : `Command "load" is not found` in None
+2021-04-11 19:27:41,986        Main            WARNING  on_command_error     Unexpected Error : `Command "unload" is not found` in None
+2021-04-11 19:27:45,855        Main            WARNING  on_command_error     Unexpected Error : `Command "reload" is not found` in None

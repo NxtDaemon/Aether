@@ -1,0 +1,13 @@
+# TODO: Remove these event ; put them in a events file 
+# @bot.event
+# async def on_member_join(member):
+#     'Welcomes Users'
+#     channel = bot.get_channel(822449146622509068)
+#     await channel.send(f"Welcome, <@{member.id}>")
+
+# @bot.event
+# async def on_member_remove(member):
+#     'Checks When Users Leave'
+#     channel = bot.get_channel(822471540057964657)
+#     await channel.send(f"{member} has left")  
+# TODO: END 

@@ -1,30 +1,31 @@
 # import required dependicies
 import discord 
-from discord.ext import commands  
+from discord.ext import commands 
 import logging, coloredlogs
 import os , time 
 
-# Create formatters 
+# * Create formatters And custom logger
 DETAILED = logging.Formatter("%(asctime)-30s %(module)-15s %(levelname)-8s %(funcName)-20s %(message)s")
 
-# Custom Logger
 logger = logging.getLogger(__name__)
 coloredlogs.install(logger=logger,level=logging.DEBUG)
 FileHandler = logging.FileHandler("DaemonBot_Errors.log")
 FileHandler.setFormatter(DETAILED)
 logger.addHandler(FileHandler)
 
-# Import Bot Token 
+# * Records Who uses what command 
+async def RecordUser(self, ctx):
+    logger.debug(f"{ctx.author} running command `{ctx.command}` at `{ctx.message.created_at}`")
+
+# * Import Bot Token 
 BOT_TOKEN = os.environ['BOT_TOKEN']
 
-# Load Rich Intents
+# * Load Rich Intents
 intents = discord.Intents.default()
 intents.members = True 
 
-# Instantiate Bot 
+# Instantiate Bot and Startup 
 bot = commands.Bot(command_prefix = '?', intents=intents)
-
-# Start Up
 
 @bot.event
 async def on_ready():
@@ -38,29 +39,17 @@ async def on_ready():
         ════════════════════════════════════\n""")
     logger.info(f"DaemonBot Online At {HRT}")
 
-@bot.event
-async def on_member_join(member):
-    'Welcomes Users'
-    channel = bot.get_channel(822449146622509068)
-    await channel.send(f"Welcome, <@{member.id}>")
-
-@bot.event
-async def on_member_remove(member):
-    'Checks When Users Leave'
-    channel = bot.get_channel(822471540057964657)
-    await channel.send(f"{member} has left")  
-
+# Exceptions and Error handling 
 @bot.event
 async def on_command_error(ctx,error):
     if isinstance(error, commands.MissingRequiredArgument):
         logger.info("A Request was sent that had Missing Parameters , Request Ignored")
         await ctx.send("A parameter was not set. Please try again")
     else:
-        logger.warning(f"Unexpected Error : `{error}`")
-
-print("")
+        logger.warning(f"Unexpected Error : `{error}` in {ctx.command}")
 
 if __name__ == "__main__":
+    print("")
     for filename in os.listdir('cogs'):
         if filename.endswith(".py"):
             bot.load_extension(f'cogs.{filename[:-3]}')
