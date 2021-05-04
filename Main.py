@@ -47,11 +47,11 @@ async def on_command_error(ctx,error):
         await ctx.send("A parameter was not set. Please try again")
     else:
         logger.warning(f"Unexpected Error : `{error}` in {ctx.command}")
+        await ctx.send("Error Encountered :no_entry_sign:")
 
 if __name__ == "__main__":
     print("")
     for filename in os.listdir('cogs'):
         if filename.endswith(".py"):
             bot.load_extension(f'cogs.{filename[:-3]}')
-            print(f"Loaded {filename[:-3]}")
     bot.run(BOT_TOKEN)

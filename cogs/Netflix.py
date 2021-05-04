@@ -11,6 +11,7 @@ class Netflix(commands.Cog):
         self.bot = bot 
 
     @commands.command(brief="Search Film Compatibility")
+    @commands.before_invoke(RecordUser)
     async def query(self,ctx,Query):
         'Queries if film is avaliable in your areas'
         name = "Query"
@@ -24,6 +25,11 @@ class Netflix(commands.Cog):
             logger.error(f"Uncaught Exception in Module : `{name}`, ErrorType : `{type(Exc)}` : {Exc}")
 
 def setup(bot):
+    logger.debug("| Loaded Netflix | ")
     bot.add_cog(Netflix(bot))
-        
+
+def teardown(bot):
+    logger.debug("| Unloaded Netflix | ")
+    bot.remove_cog(Netflix(bot))        
+
 #+++++++++++++++++++++++++++++++++++++++++++++++Main Code++++++++++++++++++++++++++++++++++++++++++++++++++#

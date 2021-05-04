@@ -22,84 +22,79 @@ class ItemNotFound(Exception):
     'Exception for Items Not being found in an index'
     pass
 
-#++++++++++++++++++++++++++++++++++++++++++++++Exceptions++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 #+++++++++++++++++++++++++++++++++++++++++++Custom Functions+++++++++++++++++++++++++++++++++++++++++++++++#
 
 async def FileEmptyCheck(FileListObj,ctx):
     'Manage Empty File Checks'
-    name = "FileEmptyCheck"
     try:
         if len(FileListObj) == 0:
             logger.info("FileObj Detected Empty")
             await ctx.send('List is Empty')
             return(1)
     except(Exception) as Exc:
-        logger.error(f"Uncaught Exception in Module : `{name}`, ErrorType : `{type(Exc)}` : {Exc}")
+        logger.error(f"Uncaught Exception in Module : `FileEmptyCheck`, ErrorType : `{type(Exc)}` : {Exc}")
     else:
         return(0)
 
 async def ParameterEmptyCheck(Parameter,ctx):
     'Manage Empty Message Checks'
-    name = "ParameterEmptyCheck"
     try:
         if len(Parameter) == 0:
             logger.info("Required Parameter Detected Empty")
             await ctx.send("A parameter was not set. Please try again")
             return(1)
     except(Exception) as Exc:
-        logger.error(f"Uncaught Exception in Module : `{name}`, ErrorType : `{type(Exc)}` : {Exc}")
+        logger.error(f"Uncaught Exception in Module : `ParameterEmptyCheck`, ErrorType : `{type(Exc)}` : {Exc}")
     else:
       return(0)
 
 async def IntCheck(TypeObj):
     'Manage if something is an Int'
-    name = "IntCheck"
     try:
       TypeObj = int(TypeObj)
       return(0)
     except(ValueError):
       return(1)
     except(Exception) as Exc:
-        logger.error(f"Uncaught Exception in Module : `{name}`, ErrorType : `{type(Exc)}` : {Exc}")
+        logger.error(f"Uncaught Exception in Module : `IntCheck`, ErrorType : `{type(Exc)}` : {Exc}")
     else:
       return(1)
 
 async def IDCheck(ID):
-    'Only Let "Gods" Use the Command'
-    with open("Gods.txt","r+") as f:
-        GodIDList = f.readlines()
-    if str(ID) in GodIDList:
+    'Only Let "Auth" Users use the Command'
+    ID = str(ID) + "\n"
+    with open("Auth.txt","r+") as f:
+        AuthIDList = f.readlines()
+    if str(ID) in AuthIDList:
         return(0)
     elif str(ID) == "539928505488506882":
         return(0)
     else: 
         return(1)
 
-#+++++++++++++++++++++++++++++++++++++++++++Custom Functions+++++++++++++++++++++++++++++++++++++++++++++++#
 
-#+++++++++++++++++++++++++++++++++++++++++++++++Main Code++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 class ToDoList(commands.Cog):
     def __init__(self,bot):
         self.bot = bot 
 
-    @commands.command(brief="Manage Gods")
+    @commands.command(brief="Manage Authed",aliases=["auth"])
     @commands.before_invoke(RecordUser)
-    async def God(self,ctx,mode,user : discord.Member):
-        'Add and Remove people from GOD List'
+    async def Auth(self,ctx,mode,user : discord.Member):
+        'Add and Remove people from Authed List'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
 
             if mode.lower() == "add":
-                with open("Gods.txt","a+") as f:
+                with open("Auth.txt","a+") as f:
                     if str(user.id) in f.readlines():
-                        await ctx.send("You are already God Status")
+                        await ctx.send("You are already Auth Status")
                     f.write(str(user.id)+"\n")
-                    await ctx.send(f"{user} is now God Status")
+                    await ctx.send(f"{user} is now Auth Status")
 
             elif mode.lower() == "remove":
-                with open("Gods.txt","r+") as f:
+                with open("Auth.txt","r+") as f:
                     content = f.read().splitlines()
                     if str(user.id) not in content: raise ItemNotFound()
                     content.remove(str(user.id))
@@ -109,16 +104,15 @@ class ToDoList(commands.Cog):
                         for _ in content:
                             f.write(f"{_}\n")
 
-        except(ItemNotFound,IdError,TypeError) as Exc:
+        except(Exception) as Exc:
             if type(Exc) == ItemNotFound:
-                await ctx.send("User Was Not Found In Gods Files")
+                await ctx.send("User Was Not Found In Auth.txt File")
             elif type(Exc) == IdError:
                 await ctx.send("You aren't permitted to use this command.")
             elif type(Exc) == TypeError:
-                logger.info("Gods file is now empty")
-
-        except(Exception) as Exc:
-            pass
+                logger.info("Auth file is now empty")
+            else:
+                pass
             
     @commands.command(brief="Add items to a TODO List",aliases=['la'])
     @commands.before_invoke(RecordUser)
@@ -131,9 +125,9 @@ class ToDoList(commands.Cog):
             MessageString = ""
             for _ in message:
                 MessageString += f" {_}"
-            with open("ToDoList.txt","a") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.txt","a") as f:
                 f.write(f"{MessageString} : {HRT}\n")
-            await ctx.send("Todo List updated")
+            await ctx.message.add_reaction('☑️')
 
         except(ParameterEmpty,IdError) as Exc:
             if type(Exc) == IdError:
@@ -148,7 +142,7 @@ class ToDoList(commands.Cog):
         try:
             if await IDCheck(ctx.author.id) : raise(IdError)
             STP = ""
-            with open("ToDoList.txt","r") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.txt","r") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 for i, _ in enumerate(content,1):
@@ -168,7 +162,7 @@ class ToDoList(commands.Cog):
     async def ListRemove(self,ctx,Number):
         'Removes Items From TODO List'
         try:
-            with open("ToDoList.txt","r+") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.txt","r+") as f:
                 content = f.readlines()
                 if await IDCheck(ctx.author.id) : raise(IdError)
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
@@ -186,7 +180,7 @@ class ToDoList(commands.Cog):
                 else:
                     await ctx.send(f"Removed `{Number} : {str(line)}`")    
         except(FileEmpty,ParameterEmpty,ValueError,IndexError,IdError) as Exc:
-            logger.debug(f"Caught `{type(Exc)}` in `{name}`")
+            logger.debug(f"Caught `{type(Exc)}` in `{ctx.command}`")
             if type(Exc) == IdError:
                 await ctx.send("You aren't permitted to use this command.")
             elif type(Exc) == IndexError:
@@ -202,15 +196,15 @@ class ToDoList(commands.Cog):
         'Randomly Selected an item from the list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open("ToDoList.txt","r+") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.txt","r+") as f:
                 content = f.readlines()
+                if await FileEmptyCheck(content,ctx) : raise FileEmpty()
                 choice = random.choice(content)
                 choice = choice.strip("\n")
                 await ctx.send(f"`{choice}` || was selected :D")
         except(FileEmpty,IdError) as Exc:
             if type(Exc) == IdError:
                 await ctx.send("You aren't permitted to use this command.")
-            await ctx.send("File is empty")
         except(Exception) as Exc:
             pass
 
@@ -220,7 +214,7 @@ class ToDoList(commands.Cog):
         'Removes all from list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open("ToDoList.txt","r+") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.txt","r+") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 f.seek(0)
@@ -231,13 +225,27 @@ class ToDoList(commands.Cog):
                 await ctx.send("You aren't permitted to use this command.")
             pass
         except(Exception) as Exc:
-            logger.error(f"Uncaught Exception in Module : `{name}`, ErrorType : `{type(Exc)}` : {Exc}")
+            pass
         else:
-            logger.debug(f"{ctx.author} running command `{name}`")
+            logger.debug(f"{ctx.author} running command `ctx.command`")
             await ctx.send("Sorry you dont have permission to do this.")
+    @commands.command(brief="Create a users ToDoList",aliases=["c"])
+    @commands.before_invoke(RecordUser)
+    async def Create(self,ctx):
+        'Setup for a user\'s to do list'
+        try:
+            FileName = f"Lists/{ctx.author}_ToDoList.txt"
+            file = open(FileName,"+a")
+            await ctx.send(f"ToDoList Created Under Name `{FileName}`")
+        except(Exception) as Exc:
+            pass
+    
 
 def setup(bot):
+    logger.debug("| Loaded ToDoList | ")
     bot.add_cog(ToDoList(bot))
 
+def teardown(bot):
+    logger.debug("| Unloaded ToDoList | ")
+    bot.remove_cog(ToDoList(bot))     
 
-#+++++++++++++++++++++++++++++++++++++++++++++++Main Code++++++++++++++++++++++++++++++++++++++++++++++++++#
