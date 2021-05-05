@@ -9,7 +9,7 @@ DETAILED = logging.Formatter("%(asctime)-30s %(module)-15s %(levelname)-8s %(fun
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(logger=logger,level=logging.DEBUG)
-FileHandler = logging.FileHandler("DaemonBot_Errors.log")
+FileHandler = logging.FileHandler("Aether-Error.log")
 FileHandler.setFormatter(DETAILED)
 logger.addHandler(FileHandler)
 
@@ -37,7 +37,7 @@ async def on_ready():
         Time : {HRT}
         ID : {bot.user.id}                
         ════════════════════════════════════\n""")
-    logger.info(f"DaemonBot Online At {HRT}")
+    logger.info(f"Aether Online At {HRT}")
 
 # Exceptions and Error handling 
 @bot.event

@@ -3,7 +3,7 @@ from discord.ext import commands
 from Main import logger,RecordUser
 
 class QuickPoll(commands.Cog):
-    """Code Stolen from https://gist.github.com/Vexs/f2c1bfd6bda68a661a71accd300d2adc, however this was modified to fit with py3 and latest discord.py """
+    """Code Stolen from https://gist.github.com/Vexs/f2c1bfd6bda68a661a71accd300d2adc, however this was modified to fit with modern py3 and latest discord.py """
 
     def __init__(self, bot):
         self.bot = bot

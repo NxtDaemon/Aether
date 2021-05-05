@@ -125,7 +125,7 @@ class ToDoList(commands.Cog):
             MessageString = ""
             for _ in message:
                 MessageString += f" {_}"
-            with open(f"Lists/{ctx.author}_ToDoList.txt","a") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.ToDo","a") as f:
                 f.write(f"{MessageString} : {HRT}\n")
             await ctx.message.add_reaction('☑️')
 
@@ -142,7 +142,7 @@ class ToDoList(commands.Cog):
         try:
             if await IDCheck(ctx.author.id) : raise(IdError)
             STP = ""
-            with open(f"Lists/{ctx.author}_ToDoList.txt","r") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 for i, _ in enumerate(content,1):
@@ -162,7 +162,7 @@ class ToDoList(commands.Cog):
     async def ListRemove(self,ctx,Number):
         'Removes Items From TODO List'
         try:
-            with open(f"Lists/{ctx.author}_ToDoList.txt","r+") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r+") as f:
                 content = f.readlines()
                 if await IDCheck(ctx.author.id) : raise(IdError)
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
@@ -196,7 +196,7 @@ class ToDoList(commands.Cog):
         'Randomly Selected an item from the list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open(f"Lists/{ctx.author}_ToDoList.txt","r+") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r+") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise FileEmpty()
                 choice = random.choice(content)
@@ -214,7 +214,7 @@ class ToDoList(commands.Cog):
         'Removes all from list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open(f"Lists/{ctx.author}_ToDoList.txt","r+") as f:
+            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r+") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 f.seek(0)
@@ -234,7 +234,7 @@ class ToDoList(commands.Cog):
     async def Create(self,ctx):
         'Setup for a user\'s to do list'
         try:
-            FileName = f"Lists/{ctx.author}_ToDoList.txt"
+            FileName = f"Lists/{ctx.author}_ToDoList.ToDo"
             file = open(FileName,"+a")
             await ctx.send(f"ToDoList Created Under Name `{FileName}`")
         except(Exception) as Exc:
