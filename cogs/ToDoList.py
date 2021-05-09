@@ -238,7 +238,7 @@ class ToDoList(commands.Cog):
             file = open(FileName,"+a")
             await ctx.send(f"ToDoList Created Under Name `{FileName}`")
         except(Exception) as Exc:
-            pass
+            logger.info(f"{Exc}")
     
 
 def setup(bot):
