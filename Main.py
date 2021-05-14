@@ -1,4 +1,4 @@
-# import required dependicies
+# import required dependencies
 import discord 
 from discord.ext import commands 
 import logging, coloredlogs
