@@ -1,1 +1,0 @@
-embed  Discord.Embed(title="Your List",description=STP,color=0x0000ff)
