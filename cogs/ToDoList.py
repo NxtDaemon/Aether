@@ -2,7 +2,7 @@ from discord.ext import commands
 import time
 import discord
 from Main import logger, RecordUser
-import random
+import random,os
 
 #+++++++++++++++++++++++++++++++++++++++++++++Exceptions+++++++++++++++++++++++++++++++++++++++++++++++++++#
 
@@ -78,6 +78,13 @@ async def IDCheck(ID):
 class ToDoList(commands.Cog):
     def __init__(self,bot):
         self.bot = bot 
+
+
+    @commands.command(brief="Remove Items from TODO List",aliases=['u'])
+    @commands.before_invoke(RecordUser)
+    async def Use(self,ctx,Listname):
+        print("NULL")
+
 
     @commands.command(brief="Manage Authed",aliases=["auth"])
     @commands.before_invoke(RecordUser)
@@ -230,16 +237,38 @@ class ToDoList(commands.Cog):
         else:
             logger.debug(f"{ctx.author} running command `ctx.command`")
             await ctx.send("Sorry you dont have permission to do this.")
-    @commands.command(brief="Create a users ToDoList",aliases=["c"])
+
+    @commands.command(brief="Create a users ToDoList",aliases=["r","remove"])
+    @commands.before_invoke(RecordUser)       
+    async def Remove(self,ctx,name=None):
+        'Remove a Users to do list'
+        FileName = f"{name}-{ctx.author.id}.ToDo"
+        if name == None: await ctx.send("Name Parameter Not Set") ; return()
+        if os.path.isdir(f"Lists/{ctx.author.id}"):
+            if os.path.isfile(f"Lists/{ctx.author.id}/{FileName}"):
+                os.remove(f"Lists/{ctx.author.id}/{FileName}")
+                await ctx.send (f"Removed List under name `{FileName}`")
+            else: 
+                await ctx.send(f"{name} was not found in your lists folder")
+        else: 
+            await ctx.send("your folder does not exist please run the `create` command ")
+
+    @commands.command(brief="Create a users ToDoList",aliases=["c","create"])
     @commands.before_invoke(RecordUser)
-    async def Create(self,ctx):
+    async def Create(self,ctx,name="Main"):
         'Setup for a user\'s to do list'
-        try:
-            FileName = f"Lists/{ctx.author}_ToDoList.ToDo"
-            file = open(FileName,"+a")
-            await ctx.send(f"ToDoList Created Under Name `{FileName}`")
-        except(Exception) as Exc:
-            logger.info(f"{Exc}")
+        if os.path.isdir(f"Lists/{ctx.author.id}"):
+            try:
+                FileName = f"Lists/{ctx.author.id}/{name}-{ctx.author.id}.ToDo"
+                if os.path.isfile(FileName) : await ctx.send(f"List Already Exists under name `{FileName}` ") ; return()
+                file = open(FileName,"+a")
+                await ctx.send(f"List Created Under Name `{FileName}`")
+            except(Exception) as Exc:
+                logger.info(f"{Exc}")
+        else: 
+            os.mkdir(f"Lists/{ctx.author.id}")
+            await ctx.send("Your Folder has been created, please re-run command.")
+        
     
 
 def setup(bot):
