@@ -73,7 +73,11 @@ async def IDCheck(ID):
     else: 
         return(1)
 
-
+async def GetActiveName(ctx):
+    with open("Lists/{ctx.author.id}/Active.txt") as f:
+        Active = f.read()
+        logger.debug(f"Value : {Active}")
+        return(f"Lists/{ctx.author.id}/{Active}")
 
 class ToDoList(commands.Cog):
     def __init__(self,bot):
@@ -82,8 +86,9 @@ class ToDoList(commands.Cog):
 
     @commands.command(brief="Remove Items from TODO List",aliases=['u'])
     @commands.before_invoke(RecordUser)
-    async def Use(self,ctx,Listname):
-        print("NULL")
+    async def Use(self,ctx,Mode,Listname):
+        if Mode.lower() == "list":
+            print("yesy")
 
 
     @commands.command(brief="Manage Authed",aliases=["auth"])
@@ -132,7 +137,7 @@ class ToDoList(commands.Cog):
             MessageString = ""
             for _ in message:
                 MessageString += f" {_}"
-            with open(f"Lists/{ctx.author}_ToDoList.ToDo","a") as f:
+            with open(f"{GetActiveName(ctx)}","a") as f:
                 f.write(f"{MessageString} : {HRT}\n")
             await ctx.message.add_reaction('☑️')
 
@@ -143,13 +148,15 @@ class ToDoList(commands.Cog):
 
         except(Exception) as Exc:
             pass
+
     @commands.command(brief="List Items from TODO List",aliases=['l'])
     @commands.before_invoke(RecordUser)
     async def List (self,ctx):
         try:
             if await IDCheck(ctx.author.id) : raise(IdError)
             STP = ""
-            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r") as f:
+            FileName = await GetActiveName(ctx)
+            with open(FileName,"r") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 for i, _ in enumerate(content,1):
@@ -170,7 +177,7 @@ class ToDoList(commands.Cog):
     async def ListRemove(self,ctx,Number):
         'Removes Items From TODO List'
         try:
-            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r+") as f:
+            with open(f"{GetActiveName(ctx)}","r+") as f:
                 content = f.readlines()
                 if await IDCheck(ctx.author.id) : raise(IdError)
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
@@ -204,7 +211,7 @@ class ToDoList(commands.Cog):
         'Randomly Selected an item from the list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r+") as f:
+            with open(f"{GetActiveName(ctx)}","r+") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise FileEmpty()
                 choice = random.choice(content)
@@ -222,7 +229,7 @@ class ToDoList(commands.Cog):
         'Removes all from list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open(f"Lists/{ctx.author}_ToDoList.ToDo","r+") as f:
+            with open(f"{GetActiveName(ctx)}","r+") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 f.seek(0)
@@ -259,6 +266,10 @@ class ToDoList(commands.Cog):
         'Setup for a user\'s to do list'
         if os.path.isdir(f"Lists/{ctx.author.id}"):
             try:
+                if name == "Main" :
+                    with open(f"Lists/{ctx.author.id}/Active.txt","+a") as ActiveFile:
+                        ActiveFile.write(f"{name}-{ctx.author.id}.ToDo")
+                        logger.debug(f"instantiated Active File for {ctx.author}")
                 FileName = f"Lists/{ctx.author.id}/{name}-{ctx.author.id}.ToDo"
                 if os.path.isfile(FileName) : await ctx.send(f"List Already Exists under name `{FileName}` ") ; return()
                 file = open(FileName,"+a")
@@ -269,8 +280,6 @@ class ToDoList(commands.Cog):
             os.mkdir(f"Lists/{ctx.author.id}")
             await ctx.send("Your Folder has been created, please re-run command.")
         
-    
-
 def setup(bot):
     logger.debug("| Loaded ToDoList | ")
     bot.add_cog(ToDoList(bot))

@@ -24,7 +24,7 @@ BOT_TOKEN = os.environ['BOT_TOKEN']
 intents = discord.Intents.default()
 intents.members = True 
 
-# Instantiate Bot and Startup 
+# * Instantiate Bot and Startup 
 bot = commands.Bot(command_prefix = '?', intents=intents)
 
 @bot.event
@@ -39,7 +39,7 @@ async def on_ready():
         ════════════════════════════════════\n""")
     logger.info(f"Aether Online At {HRT}")
 
-# Exceptions and Error handling 
+# * Exceptions and Error handling 
 @bot.event
 async def on_command_error(ctx,error):
     if isinstance(error, commands.MissingRequiredArgument):
