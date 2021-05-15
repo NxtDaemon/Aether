@@ -28,7 +28,7 @@ class Admin(commands.Cog):
         """Unloads a module."""
         name = "unload"
         try:
-            bot.unload_extension(module)?la 
+            bot.unload_extension(module)
         except Exception as Exc:
             pass
         else:
