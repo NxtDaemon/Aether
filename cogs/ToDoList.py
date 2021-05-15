@@ -146,8 +146,9 @@ class ToDoList(commands.Cog):
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 for i, _ in enumerate(content,1):
-                    STP += f"{i} : `{_}`"
-                await ctx.send(STP + " ")
+                    STP += f"{str(i).rjust(3)} : `{_}`"
+                embed = discord.Embed(title="Your List",description=STP,color=0x0000ff)
+                await ctx.send(embed=embed)
 
         except(FileEmpty,IdError) as Exc:
             if type(Exc) == IdError:

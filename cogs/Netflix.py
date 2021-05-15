@@ -13,7 +13,7 @@ class Netflix(commands.Cog):
     @commands.command(brief="Search Film Compatibility")
     @commands.before_invoke(RecordUser)
     async def query(self,ctx,Query):
-        'Queries if film is avaliable in your areas'
+        'Queries if a film is avaliable in your countries'
         name = "Query"
         print(f"{ctx.author} running command {name}")
         try:

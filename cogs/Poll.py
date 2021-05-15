@@ -8,7 +8,7 @@ class QuickPoll(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True,aliases=["poll","p"])
+    @commands.command(pass_context=True,brief="Quick Poll :D ",aliases=["poll","p"])
     @commands.before_invoke(RecordUser)
 
     async def Poll(self, ctx, question, *options: str):
