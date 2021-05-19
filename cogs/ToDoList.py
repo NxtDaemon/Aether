@@ -22,8 +22,7 @@ class ItemNotFound(Exception):
     'Exception for Items Not being found in an index'
     pass
 
-
-#+++++++++++++++++++++++++++++++++++++++++++Custom Functions+++++++++++++++++++++++++++++++++++++++++++++++#
+#+++++++++++++++++++++++++++++++++++++++++ < Custom Functions > ++++++++++++++++++++++++++++++++++++++++++++#
 
 async def FileEmptyCheck(FileListObj,ctx):
     'Manage Empty File Checks'
@@ -73,23 +72,40 @@ async def IDCheck(ID):
     else: 
         return(1)
 
-async def GetActiveName(ctx):
-    with open("Lists/{ctx.author.id}/Active.txt") as f:
+async def GetActiveName(id):
+    with open(f"Lists/{id}/Active.txt") as f:
         Active = f.read()
-        logger.debug(f"Value : {Active}")
-        return(f"Lists/{ctx.author.id}/{Active}")
+    return(f"Lists/{id}/{Active}")
+
+#+++++++++++++++++++++++++++++++++++++++++++++ < Main Code > ++++++++++++++++++++++++++++++++++++++++++++++#
 
 class ToDoList(commands.Cog):
     def __init__(self,bot):
         self.bot = bot 
 
-
-    @commands.command(brief="Remove Items from TODO List",aliases=['u'])
+    @commands.command(brief="Remove Items from TODO List",aliases=['sl'])
     @commands.before_invoke(RecordUser)
-    async def Use(self,ctx,Mode,Listname):
-        if Mode.lower() == "list":
-            print("yesy")
+    async def SetList(self,ctx,Listname):
+        AttemptFilename = f"{Listname}-{ctx.author.id}.ToDo"
+        if AttemptFilename in os.listdir(f"Lists/{ctx.author.id}/"):
+            with open(f"Lists/{ctx.author.id}/Active.txt","+a") as f:
+                f.seek(0)
+                f.truncate()
+                f.write(f"{Listname}-{ctx.author.id}.ToDo")
+            await ctx.send("You're Active File has been Updated")
+        else:
+            await ctx.send("This List Doesn't Exist Sorry")
 
+    @commands.command(brief="Show All of your lists",aliases=["ml"])
+    @commands.before_invoke(RecordUser)
+    async def MyLists(self,ctx):
+        Lists = os.listdir(f"Lists/{ctx.author.id}/")
+        Lists.remove("Active.txt")
+        DisplayableLists = []
+        for _ in Lists:
+            DisplayableLists.append(_.replace(f"-{ctx.author.id}.ToDo",""))
+            embed = discord.Embed(title="Your Lists",description="\n".join(DisplayableLists),color=0x0000ff)
+        await ctx.send(embed=embed)
 
     @commands.command(brief="Manage Authed",aliases=["auth"])
     @commands.before_invoke(RecordUser)
@@ -137,7 +153,8 @@ class ToDoList(commands.Cog):
             MessageString = ""
             for _ in message:
                 MessageString += f" {_}"
-            with open(f"{GetActiveName(ctx)}","a") as f:
+            Filename = await GetActiveName(ctx.author.id)
+            with open(f"{Filename}","a") as f:
                 f.write(f"{MessageString} : {HRT}\n")
             await ctx.message.add_reaction('☑️')
 
@@ -155,7 +172,7 @@ class ToDoList(commands.Cog):
         try:
             if await IDCheck(ctx.author.id) : raise(IdError)
             STP = ""
-            FileName = await GetActiveName(ctx)
+            FileName = await GetActiveName(ctx.author.id)
             with open(FileName,"r") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
@@ -167,8 +184,7 @@ class ToDoList(commands.Cog):
         except(FileEmpty,IdError) as Exc:
             if type(Exc) == IdError:
                 await ctx.send("You aren't permitted to use this command.")
-            pass
-
+            
         except(Exception) as Exc:
             pass
 
@@ -177,7 +193,8 @@ class ToDoList(commands.Cog):
     async def ListRemove(self,ctx,Number):
         'Removes Items From TODO List'
         try:
-            with open(f"{GetActiveName(ctx)}","r+") as f:
+            Filename = await GetActiveName(ctx.author.id) 
+            with open(f"{Filename}","r+") as f:
                 content = f.readlines()
                 if await IDCheck(ctx.author.id) : raise(IdError)
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
@@ -211,7 +228,8 @@ class ToDoList(commands.Cog):
         'Randomly Selected an item from the list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open(f"{GetActiveName(ctx)}","r+") as f:
+            Filename = await GetActiveName(ctx.author.id)
+            with open(f"{Filename}","r+") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise FileEmpty()
                 choice = random.choice(content)
@@ -229,7 +247,8 @@ class ToDoList(commands.Cog):
         'Removes all from list'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
-            with open(f"{GetActiveName(ctx)}","r+") as f:
+            Filename = await GetActiveName(ctx.author.id)
+            with open(f"{Filename}","r+") as f:
                 content = f.readlines()
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 f.seek(0)
@@ -242,7 +261,6 @@ class ToDoList(commands.Cog):
         except(Exception) as Exc:
             pass
         else:
-            logger.debug(f"{ctx.author} running command `ctx.command`")
             await ctx.send("Sorry you dont have permission to do this.")
 
     @commands.command(brief="Create a users ToDoList",aliases=["r","remove"])
