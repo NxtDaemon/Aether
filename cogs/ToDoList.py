@@ -109,7 +109,7 @@ class ToDoList(commands.Cog):
 
     @commands.command(brief="Manage Authed",aliases=["auth"])
     @commands.before_invoke(RecordUser)
-    async def Auth(self,ctx,mode,user : discord.Member):
+    async def AutMember(self,ctx,mode,user : discord.Member):
         'Add and Remove people from Authed List'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
@@ -141,7 +141,18 @@ class ToDoList(commands.Cog):
                 logger.info("Auth file is now empty")
             else:
                 pass
+
+    @commands.command(brief="Authorize An Entire Role",aliases=["ar","authrole"])
+    @commands.before_invoke(RecordUser)
+    async def AuthRole(self,ctx,Role : discord.Role):
+        for User in Role.members:
+            with open("Auth.txt","a+") as f:
+                f.write(str(User.id)+"\n")
+                await User.send(f"Due to being a Member of the `{Role}` Role in `{User.guild}` \nYou Have Been Given Auth Status to use the Bot, Enjoy your day :)") 
+        await ctx.send(f"`{Role}` Members Have Now Been Given Auth Status")
             
+        
+
     @commands.command(brief="Add items to a TODO List",aliases=['la'])
     @commands.before_invoke(RecordUser)
     async def ListAdd (self,ctx,*message : str ):
