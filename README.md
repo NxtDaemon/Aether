@@ -5,6 +5,7 @@ Hey Aether is personal project of mine for my discord, I will writeup stuff abou
 - Admin
 - ToDoList
 - Fun 
+- Netflix
 
 ## Admin
 - Modified Purge Command from an SO 
@@ -14,3 +15,6 @@ Hey Aether is personal project of mine for my discord, I will writeup stuff abou
 
 ## Fun
 - Slightly Modifed Poll Command from Jackbot 
+
+## Netflix
+- Command to lookup if users can use netflix party with the same video within Netflix [UNFINISHED] 
