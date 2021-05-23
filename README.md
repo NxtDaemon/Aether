@@ -1,9 +1,16 @@
 # Aether
 
-Hey Aether is personal project of mine for my discord, I will writeup stuff about it at my blog https://nxtdaemon.xyz otherwise Aether is currently not ready to add to multiple servers nor does it have the uptime
+Hey Aether is personal project of mine for my discord, I will writeup stuff about it at my blog https://nxtdaemon.xyz otherwise Aether will not be released to multiple servers; it is purely for learning Discord.py and different nuances in python. Currently Aether Has the following cogs
 
-- Admin Applications
+- Admin
 - ToDoList
-- Netflix Cross Country Integration (Coming Soon)
-- Modified Poll Script
+- Fun 
 
+## Admin
+- Modified Purge Command from an SO 
+
+## ToDoList 
+- A Mediocre ToDoList for users which has little to no room for errors
+
+## Fun
+- Slightly Modifed Poll Command from Jackbot 
