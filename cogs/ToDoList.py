@@ -4,7 +4,7 @@ import discord
 from Main import logger, RecordUser
 import random,os
 
-#+++++++++++++++++++++++++++++++++++++++++++++Exceptions+++++++++++++++++++++++++++++++++++++++++++++++++++#
+#++++++++++++++++++++++++++++++++++++++++++ < Exceptions > ++++++++++++++++++++++++++++++++++++++++++++++++#
 
 class FileEmpty(Exception):
     'Exception for Files Being Empty'
@@ -107,9 +107,9 @@ class ToDoList(commands.Cog):
             embed = discord.Embed(title="Your Lists",description="\n".join(DisplayableLists),color=0x0000ff)
         await ctx.send(embed=embed)
 
-    @commands.command(brief="Manage Authed",aliases=["auth"])
+    @commands.command(brief="Manage Authed",aliases=["authmem","am"])
     @commands.before_invoke(RecordUser)
-    async def AutMember(self,ctx,mode,user : discord.Member):
+    async def AuthMember(self,ctx,mode,user : discord.Member):
         'Add and Remove people from Authed List'
         try:
             if await IDCheck(ctx.author.id) : raise IdError()
@@ -151,8 +151,6 @@ class ToDoList(commands.Cog):
                 await User.send(f"Due to being a Member of the `{Role}` Role in `{User.guild}` \nYou Have Been Given Auth Status to use the Bot, Enjoy your day :)") 
         await ctx.send(f"`{Role}` Members Have Now Been Given Auth Status")
             
-        
-
     @commands.command(brief="Add items to a TODO List",aliases=['la'])
     @commands.before_invoke(RecordUser)
     async def ListAdd (self,ctx,*message : str ):
@@ -189,7 +187,9 @@ class ToDoList(commands.Cog):
                 if await FileEmptyCheck(content,ctx) : raise(FileEmpty)
                 for i, _ in enumerate(content,1):
                     STP += f"{str(i).rjust(3)} : `{_}`"
-                embed = discord.Embed(title="Your List",description=STP,color=0x0000ff)
+                EmbedFileName = FileName.split("/")[2]
+                EmbedFileName = EmbedFileName.replace(f"-{ctx.author.id}.ToDo","")
+                embed = discord.Embed(title=f"{EmbedFileName}",description=STP,color=0x0000ff)
                 await ctx.send(embed=embed)
 
         except(FileEmpty,IdError) as Exc:
