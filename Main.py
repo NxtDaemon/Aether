@@ -1,31 +1,39 @@
 # import required dependencies
-import discord 
-from discord.ext import commands 
-import logging, coloredlogs
-import os , time 
+import discord
+from discord.ext import commands
+import logging
+import coloredlogs
+import os
+import time
 
 # * Create formatters And custom logger
-DETAILED = logging.Formatter("%(asctime)-30s %(module)-15s %(levelname)-8s %(funcName)-20s %(message)s")
+DETAILED = logging.Formatter(
+    "%(asctime)-30s %(module)-15s %(levelname)-8s %(funcName)-20s %(message)s")
 
 logger = logging.getLogger(__name__)
-coloredlogs.install(logger=logger,level=logging.DEBUG)
+coloredlogs.install(logger=logger, level=logging.DEBUG)
 FileHandler = logging.FileHandler("Aether-Error.log")
 FileHandler.setFormatter(DETAILED)
 logger.addHandler(FileHandler)
 
-# * Records Who uses what command 
-async def RecordUser(self, ctx):
-    logger.debug(f"{ctx.author} running command `{ctx.command}` at `{ctx.message.created_at}`")
+# * Records Who uses what command
 
-# * Import Bot Token 
-BOT_TOKEN = os.environ['BOT_TOKEN']
+
+async def RecordUser(self, ctx):
+    logger.debug(
+        f"{ctx.author} running command `{ctx.command}` at `{ctx.message.created_at}`")
+
+# * Import Bot Token
+
+BOT_TOKEN = "" # os.environ['BOT_TOKEN']
 
 # * Load Rich Intents
 intents = discord.Intents.default()
-intents.members = True 
+intents.members = True
 
-# * Instantiate Bot and Startup 
-bot = commands.Bot(command_prefix = '?', intents=intents)
+# * Instantiate Bot and Startup
+bot = commands.Bot(command_prefix='?', intents=intents)
+
 
 @bot.event
 async def on_ready():
@@ -40,9 +48,11 @@ async def on_ready():
         ════════════════════════════════════\n""")
     logger.info(f"Aether Online At {HRT}")
 
-# * Exceptions and Error handling 
+# * Exceptions and Error handling
+
+
 @bot.event
-async def on_command_error(ctx,error):
+async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         logger.info("A Request was sent that had Missing Parameters , Request Ignored")
         await ctx.send("A parameter was not set. Please try again")

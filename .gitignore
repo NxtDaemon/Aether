@@ -1,3 +1,4 @@
 *.AdminBlocked
 Lists/*
 Aether-Error.log
+*.pyc
