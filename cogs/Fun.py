@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from Main import logger, RecordUser
+import random
 
 
 class Fun(commands.Cog):
@@ -30,6 +31,21 @@ class Fun(commands.Cog):
         poll = await poll_channel.send(embed=poll_embed)
         await poll.add_reaction("✅")
         await poll.add_reaction("❌")
+
+    @commands.command(name="coinflip", brief="Perform a Coinflip")
+    @commands.before_invoke(RecordUser)
+    async def coinflip(self, ctx):
+        Choice = random.choice(["Heads", "Tails"])
+        Response = discord.Embed(
+            color=0xffd700, title=f"Coinflip Result : {Choice}")
+        Response.set_author(name=ctx.message.author.name,
+                            icon_url=ctx.message.author.avatar_url)
+        await ctx.send(embed=Response)
+
+    @commands.command(name="val-invite", brief="Send an invite to the valorant server")
+    @commands.before_invoke(RecordUser)
+    async def ValInvite(self, ctx):
+        await ctx.send("https://discord.gg/nyYKDJxnSe")
 
 
 def setup(bot):

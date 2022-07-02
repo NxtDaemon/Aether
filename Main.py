@@ -25,6 +25,7 @@ async def RecordUser(self, ctx):
 
 # * Import Bot Token
 
+
 BOT_TOKEN = "" # os.environ['BOT_TOKEN']
 
 # * Load Rich Intents
@@ -54,11 +55,14 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        logger.info("A Request was sent that had Missing Parameters , Request Ignored")
+        logger.info(
+            "A Request was sent that had Missing Parameters , Request Ignored")
         await ctx.send("A parameter was not set. Please try again")
     else:
         logger.warning(f"Unexpected Error : `{error}` in {ctx.command}")
-        await ctx.send("Error Encountered :no_entry_sign:")
+        Response = discord.Embed(
+            color=0xffd700, title=":no_entry_sign:    An unexpected error occured")
+        await ctx.send(embed=Response)
 
 if __name__ == "__main__":
     print("")
